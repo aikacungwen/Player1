@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemutar Video Layar Penuh dengan Subtitle</title>
+    <style>
+        /* CSS untuk membuat video layar penuh */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Pemutar video layar penuh dengan subtitle -->
+    <video id="videoPlayer" controls>
+        <source id="videoSource" src="" type="video/mp4">
+        <track id="subtitleTrack" src="" kind="subtitles" srclang="id" label="Bahasa Indonesia">
+        Browser Anda tidak mendukung tag video.
+    </video>
+
+    <script>
+        // Fungsi untuk mendapatkan parameter URL
+        function getQueryParam(param) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Mendapatkan URL video dan subtitle dari parameter query
+        var videoUrl = getQueryParam('video');
+        var subtitleUrl = getQueryParam('subtitle');
+
+        // Mendapatkan elemen-elemen video player
+        var videoPlayer = document.getElementById('videoPlayer');
+        var videoSource = document.getElementById('videoSource');
+        var subtitleTrack = document.getElementById('subtitleTrack');
+
+        // Mengatur sumber video secara dinamis
+        if (videoUrl) {
+            videoSource.src = videoUrl;
+        } else {
+            console.error("URL video tidak ditemukan.");
+        }
+
+        // Mengatur sumber subtitle jika ada
+        if (subtitleUrl) {
+            subtitleTrack.src = subtitleUrl;
+            subtitleTrack.default = true; // Menampilkan subtitle secara default
+        } else {
+            // Jika tidak ada subtitle, hapus elemen track
+            subtitleTrack.remove();
+        }
+
+        // Memuat dan memutar video secara otomatis jika URL video tersedia
+        if (videoUrl) {
+            videoPlayer.load();
+            videoPlayer.play();
+        }
+    </script>
+
+</body>
+</html>
+
